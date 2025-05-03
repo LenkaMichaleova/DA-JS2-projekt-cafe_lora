@@ -12,8 +12,6 @@ const response = await fetch ("http://localhost:4000/api/drinks")
 const json = await response.json()
 const drinks = json.data
 
-console.log(drinks)
-
 document.querySelector('#root').innerHTML = render(
   <div className="page">
     <Header />
@@ -33,4 +31,28 @@ document.querySelector(".nav-btn").addEventListener("click", () => {
 
 document.querySelector(".rollout-nav").addEventListener("click", () => {
     document.querySelector(".rollout-nav").classList.add("nav-closed")
+})
+
+document.querySelectorAll(".drink__controls").forEach((form) => {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault()
+
+    const drinkId = e.target.dataset.id
+    const ordered = e.target.dataset.ordered === "true"
+
+    const response = await fetch(`http://localhost:4000/api/drinks/${drinkId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'PATCH',
+      body: JSON.stringify([{
+        op: 'replace', 
+        path: '/ordered', 
+        value: !ordered
+      }])
+    })
+    const data = await response.json()
+
+    window.location.reload()
+  })
 })

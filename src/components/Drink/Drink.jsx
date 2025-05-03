@@ -2,7 +2,8 @@ import { Layer } from '../Layer/Layer'
 import './Drink.css'
 
 export const Drink = ({id, name, ordered, image, layers}) => {
-  
+  const btnText = !ordered ? "Objednat" : "Zrušit"
+  const btnClass = !ordered ? "order-btn" : "order-btn order-btn--ordered"
   return (
   <div key={id} id={id} className="drink">
     <div className="drink__product">
@@ -14,10 +15,10 @@ export const Drink = ({id, name, ordered, image, layers}) => {
         {layers.map(({label, color}) => <Layer key={label} color={color} label={label}/>)}
       </div>
     </div>
-    <form className="drink__controls">
+    <form data-id={id} data-ordered={ordered} className="drink__controls">
       <input type="hidden" className="order-id" value="0" />
-      <button className="order-btn">
-        Objednat
+      <button className={btnClass}>
+        {btnText}
       </button>
     </form>
   </div>  
