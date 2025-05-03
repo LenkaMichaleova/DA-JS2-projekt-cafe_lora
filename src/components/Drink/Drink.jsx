@@ -4,14 +4,14 @@ import './Drink.css'
 export const Drink = ({id, name, ordered, image, layers}) => {
   
   return (
-  <div className="drink">
+  <div key={id} id={id} className="drink">
     <div className="drink__product">
       <div className="drink__cup">
-        <img src={image} />
+        <img src={`http://localhost:4000${image}`}/>
       </div>
       <div className="drink__info">
         <h3>{name}</h3>
-        <Layer color="#feeeca" label="mléčná pěna"/>
+        {layers.map(({label, color}) => <Layer key={label} color={color} label={label}/>)}
       </div>
     </div>
     <form className="drink__controls">
